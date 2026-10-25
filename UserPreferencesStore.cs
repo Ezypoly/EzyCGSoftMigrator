@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 internal sealed class UserPreferences
 {
@@ -20,7 +20,7 @@ internal sealed class UserPreferencesStore
     private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
     private readonly string _path = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "GraphicsSettingsMigrator", "preferences.json");
+        "EzyCGSoftMigrator", "preferences.json");
 
     public UserPreferences Load()
     {

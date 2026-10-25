@@ -2,7 +2,7 @@ using Microsoft.Win32;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 public sealed class DiscoveryService
 {
@@ -21,6 +21,7 @@ public sealed class DiscoveryService
     {
         var result = new List<SettingsLocation>();
         DiscoverAdobe(result);
+        DiscoverUnity(result);
         DiscoverZBrush(result);
         Discover3DCoat(result);
         DiscoverPlasticity(result);
@@ -276,6 +277,13 @@ public sealed class DiscoveryService
         AddDirectory(result, "substance-sampler", "Adobe Substance 3D Sampler", "shared", "Local data",
             Path.Combine(adobeLocal, "Adobe Substance 3D Sampler"), false,
             "Caches and auxiliary data.", ["Crashpad", "cache", "logs"]);
+    }
+
+    private void DiscoverUnity(List<SettingsLocation> result)
+    {
+        AddRegistry(result, "unity", "Unity", "shared", "Editor preferences",
+            @"HKCU\Software\Unity Technologies\UnityEditor 5.x", true,
+            "Windows editor preferences stored by Unity in the current-user registry.");
     }
 
     private void DiscoverZBrush(List<SettingsLocation> result)

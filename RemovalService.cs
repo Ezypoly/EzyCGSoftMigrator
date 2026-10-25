@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 internal sealed class RemovalResult
 {
@@ -21,7 +21,7 @@ internal sealed class RemovalService
 
         var recoveryRoot = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-            "EzyCGMigrator Removed Settings");
+            "EzyCGSoftMigrator Removed Settings");
         progress?.Report("Creating a recovery copy before removal...");
         var packageRoot = await _backupService.CreateBackupAsync(
             locations, recoveryRoot, progress, cancellationToken);

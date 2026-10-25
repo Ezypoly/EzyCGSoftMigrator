@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 /// <summary>
 /// Finds user-created content that applications keep outside their normal settings profile.

@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 internal static class DarkTheme
 {

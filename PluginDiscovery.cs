@@ -2,7 +2,7 @@ using Microsoft.Win32;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 /// <summary>
 /// Finds plug-in roots that live outside the application profiles handled by the main scanners.

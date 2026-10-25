@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 public sealed class MainForm : Form
 {
@@ -59,7 +59,7 @@ public sealed class MainForm : Form
 
     public MainForm()
     {
-        Text = "Ezy CG Migrator " + UpdateService.CurrentVersionText;
+        Text = "Ezy CG Soft Migrator " + UpdateService.CurrentVersionText;
         Width = 1220;
         Height = 790;
         MinimumSize = new Size(900, 600);
@@ -71,7 +71,7 @@ public sealed class MainForm : Form
             StringComparison.OrdinalIgnoreCase) ? DarkTheme.ClassicName : DarkTheme.ConsoleName;
         _backupDestination.Text = string.IsNullOrWhiteSpace(preferences.BackupDestination)
             ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                "Ezy CG Migrator Saved Copies")
+                "Ezy CG Soft Migrator Saved Copies")
             : preferences.BackupDestination;
         _packagePath.Text = preferences.RestorePackagePath;
         _backupDestination.PlaceholderText = "Library folder containing multiple saved copies";
@@ -373,7 +373,7 @@ public sealed class MainForm : Form
         if (selected.Count > 12) summary += "\n• ...and " + (selected.Count - 12) + " more";
         var recoveryRoot = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-            "EzyCGMigrator Removed Settings");
+            "EzyCGSoftMigrator Removed Settings");
         var answer = MessageBox.Show(this,
             "Permanently remove " + selected.Count + " highlighted settings set(s) from this PC?\n\n" +
             summary + "\n\nA recovery copy will be saved first in:\n" + recoveryRoot +
@@ -513,7 +513,7 @@ public sealed class MainForm : Form
         var question = "Copy " + preview.FilesToCopy + " files/entries (" +
             FormatBytes(preview.BytesToCopy) + ")?\n\n" +
             "Existing files will be saved before replacement in Documents\\" +
-            "EzyCGMigrator Rollbacks.\nNo extra files will be deleted from the target.";
+            "EzyCGSoftMigrator Rollbacks.\nNo extra files will be deleted from the target.";
         if (preview.Warnings.Count > 0)
             question += "\n\nWarning: cross-version migration is selected. Presets are generally portable, " +
                         "but binary preference files may be incompatible.";
@@ -550,7 +550,7 @@ public sealed class MainForm : Form
 
             var update = result.Update!;
             var answer = MessageBox.Show(this,
-                "Ezy CG Migrator " + UpdateService.CurrentVersionText +
+                "Ezy CG Soft Migrator " + UpdateService.CurrentVersionText +
                 " can be updated to " + update.Version.ToString(3) + ".\n\n" +
                 "Download: " + FormatBytes(update.SizeBytes) +
                 "\nSource: GitHub Releases\nIntegrity: GitHub SHA-256 digest\n\n" +

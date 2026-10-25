@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 internal static class RollbackUiBootstrap
 {
@@ -114,7 +114,7 @@ internal sealed class RollbackUiController
             var localGuide = Path.Combine(AppContext.BaseDirectory, "RECOVERY.md");
             var target = File.Exists(localGuide)
                 ? localGuide
-                : "https://github.com/Ezypoly/EzyCGMigrator/blob/main/RECOVERY.md";
+                : "https://github.com/Ezypoly/EzyCGSoftMigrator/blob/main/RECOVERY.md";
             Process.Start(new ProcessStartInfo(target) { UseShellExecute = true });
         }
         catch (Exception ex)

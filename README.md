@@ -1,89 +1,48 @@
-# Ezy CG Migrator
+# Ezy CG Soft Migrator
+
+Portable Windows tool for backing up and moving settings, presets, scripts,
+plug-ins, and other user data between CG software installations.
 
 > [!WARNING]
-> **Experimental software — use at your own risk.** It is provided as-is, without
-> warranties. The author and contributors are not responsible for lost or damaged
-> settings, files, plug-ins, licenses, work time, or other losses. Keep an independent
-> copy of important data and test restores before relying on this tool.
+> Experimental software. Keep an independent copy of important data and close
+> affected applications before saving, restoring, removing, or rolling back.
 
-**If a restore or removal went wrong, stop the affected application and follow the
-[Recovery and rollback guide](RECOVERY.md) before changing any more files.**
+[Download the latest release](https://github.com/Ezypoly/EzyCGSoftMigrator/releases/latest)
 
-Portable Windows utility for CG artists and studios. It saves application settings
-to an ordinary folder, moves them between PCs or software versions, updates existing
-saved copies, and can roll back a restore.
+## Use
 
-[Download the latest portable release](https://github.com/Ezypoly/EzyCGMigrator/releases/latest)
+1. Close the applications you want to migrate.
+2. Open **Save**, scan, select the required rows, and create a saved copy.
+3. On the destination PC, open that folder from **Open / restore**.
+4. Review the editable target paths, run **Preview**, and restore.
+5. If needed, undo the restore from **Rollback**.
 
-## What it moves
+Saved copies are ordinary folders containing `manifest.json`, payload files,
+and SHA-256 checksums. Restore merges files and creates a rollback package
+before overwriting anything. **Remove selected** also creates a recovery copy
+before deletion.
 
-Preferences, workspaces, hotkeys, presets, brushes, scripts, plug-ins, extensions,
-materials, libraries, and other known user data. The scanner only shows locations
-that exist on the current PC.
+## Scope
 
-Supported applications (44):
+The scanner supports 44 Windows creative applications, including Adobe tools,
+Blender, Maya, 3ds Max, Cinema 4D, Houdini, ZBrush, Unreal Engine, Unity, Godot,
+Krita, GIMP, Affinity, and many others. See [SUPPORTED_APPS.md](SUPPORTED_APPS.md)
+for the compact catalog.
 
-- **Adobe and texturing:** Photoshop, Illustrator, After Effects, Media Encoder,
-  Camera Raw, Lightroom Classic, Substance 3D Painter, Designer, Modeler and Sampler,
-  plus 3DCoat.
-- **3D, CAD, rendering and game tools:** Blender, Maya, 3ds Max, Cinema 4D, Houdini,
-  ZBrush, Plasticity, Rhino, Grasshopper, SketchUp, Nuke, Mari, Modo, Marmoset Toolbag,
-  Marvelous Designer, CLO, KeyShot, Unreal Engine, Unity and Godot.
-- **2D, painting and design:** Affinity Photo, Designer and Publisher, Krita, GIMP,
-  Inkscape, CorelDRAW, Corel Painter, Clip Studio Paint, paint.net, Aseprite, PureRef
-  and Capture One.
+The tool migrates files and current-user registry settings; it does not convert
+settings between software versions. Native plug-ins and binary preferences may
+be version-specific. Licensing, credentials, caches, autosaves, renders, and
+project files are excluded where their locations are known.
 
-See [SUPPORTED_APPS.md](SUPPORTED_APPS.md) for exact locations and scope notes.
+If something goes wrong, see [RECOVERY.md](RECOVERY.md).
 
-## Quick start
+## Build
 
-1. Close the graphics applications you are migrating.
-2. In **Save**, scan, review the rows, select what you need, and create a saved copy.
-3. Move that folder to the other PC if required.
-4. In **Open / restore**, open the folder containing `manifest.json`.
-5. Review the proposed target paths, use **Preview**, then restore.
-6. Use **Rollback** if you need to undo that restore. See the
-   [recovery guide](RECOVERY.md) for interrupted restores, skipped files, manual
-   recovery, and recovery after **Remove selected**.
+Requires the .NET 8 SDK:
 
-**Update saved copy** refreshes selected sets and adds newly discovered ones. Unchanged
-sets are skipped using SHA-256 comparison. **Remove selected** creates a recovery copy
-and always asks for confirmation before deleting settings from the PC.
+```powershell
+dotnet build -c Release
+dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
+```
 
-## Moving to a newer software version
-
-Yes. Ezy CG Migrator proposes the newest detected target for the same application and
-settings category; every target path remains editable. This is file and registry
-migration, not format conversion. A newer application may reject old binary preferences
-or native plug-ins, so launch the new version once, migrate selectively, and keep the
-rollback until the setup is verified.
-
-## Selection and experimental discovery
-
-- Cache-containing and oversized folders are visible but never auto-selected.
-- **Settings > Show unclassified profile data** adds experimental items found beside
-  known settings inside an application's profile. Cache, log, temporary, crash,
-  licensing, credential, session, QuickSave and autosave data are excluded.
-- Unclassified rows are never selected automatically — not even by
-  **Select / clear all**. Inspect and enable them manually.
-- Ctrl/Shift selects multiple rows; clicking one selected checkbox or pressing Space
-  applies the same checkbox state to the whole selection.
-
-## Safety
-
-- Saved copies are normal portable folders with a manifest and SHA-256 checksums.
-- Restore merges files; it does not delete unrelated target files.
-- Existing files and registry values are copied to a rollback package before overwrite.
-- Running supported applications block restore and removal.
-- Licensing data and machine-specific secrets are intentionally outside the migration scope.
-
-## Updates and build
-
-The portable app updates from this repository's latest GitHub Release. Downloads are
-limited to `EzyCGMigrator-win-x64.zip` and verified with the GitHub-provided SHA-256
-digest.
-
-Build locally with:
-
-    dotnet build -c Release
-    dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
+The release workflow produces `EzyCGSoftMigrator-win-x64.zip`.

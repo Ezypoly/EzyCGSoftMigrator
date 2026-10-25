@@ -1,4 +1,4 @@
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 public sealed class RollbackManifest
 {

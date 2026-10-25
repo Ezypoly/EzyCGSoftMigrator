@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 internal static class SelectionMemoryBootstrap
 {

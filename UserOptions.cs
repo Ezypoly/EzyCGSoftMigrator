@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 internal sealed class UserOptions
 {
@@ -18,7 +18,7 @@ internal sealed class UserOptions
 
     private static string OptionsPath => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "GraphicsSettingsMigrator", "settings.json");
+        "EzyCGSoftMigrator", "settings.json");
 
     public static UserOptions Load()
     {

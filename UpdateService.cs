@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 internal sealed class AvailableUpdate
 {
@@ -27,13 +27,13 @@ internal sealed class UpdateCheckResult
 
 internal static class UpdateService
 {
-    private const string Repository = "Ezypoly/EzyCGMigrator";
-    private const string AssetName = "EzyCGMigrator-win-x64.zip";
-    private const string ExecutableName = "EzyCGMigrator.exe";
+    private const string Repository = "Ezypoly/EzyCGSoftMigrator";
+    private const string AssetName = "EzyCGSoftMigrator-win-x64.zip";
+    private const string ExecutableName = "EzyCGSoftMigrator.exe";
     private const string ApplyArgument = "--apply-update";
     private const string CleanupArgument = "--cleanup-update";
     private static readonly string UpdateBase = Path.Combine(
-        Path.GetTempPath(), "EzyCGMigrator", "updates");
+        Path.GetTempPath(), "EzyCGSoftMigrator", "updates");
     private static readonly HttpClient Client = CreateClient();
 
     public static Version CurrentVersion =>
@@ -84,7 +84,7 @@ internal static class UpdateService
         var currentExecutable = Environment.ProcessPath
             ?? throw new InvalidOperationException("The current executable path is unavailable.");
         if (!Path.GetFileNameWithoutExtension(currentExecutable)
-                .Equals("EzyCGMigrator", StringComparison.OrdinalIgnoreCase))
+                .Equals("EzyCGSoftMigrator", StringComparison.OrdinalIgnoreCase))
             throw new InvalidOperationException(
                 "Self-update is available only in the published portable application, not under dotnet or an IDE.");
 
@@ -175,7 +175,7 @@ internal static class UpdateService
         catch (Exception ex)
         {
             MessageBox.Show("The update could not be installed.\n\n" + ex.Message,
-                "Ezy CG Migrator updater", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                "Ezy CG Soft Migrator updater", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         return true;
     }
@@ -263,7 +263,7 @@ internal static class UpdateService
         if (!Uri.TryCreate(value, UriKind.Absolute, out var uri) ||
             !uri.Scheme.Equals(Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase) ||
             !uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase) ||
-            !uri.AbsolutePath.Contains("/Ezypoly/EzyCGMigrator/", StringComparison.OrdinalIgnoreCase) ||
+            !uri.AbsolutePath.Contains("/Ezypoly/EzyCGSoftMigrator/", StringComparison.OrdinalIgnoreCase) ||
             !uri.AbsolutePath.Contains(requiredPathPart, StringComparison.OrdinalIgnoreCase))
             throw new InvalidDataException("GitHub returned an unexpected release URL.");
         return uri;
@@ -346,7 +346,7 @@ internal static class UpdateService
     {
         var client = new HttpClient { Timeout = TimeSpan.FromMinutes(5) };
         client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(
-            "EzyCGMigrator", CurrentVersionText));
+            "EzyCGSoftMigrator", CurrentVersionText));
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github+json"));
         client.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
         return client;

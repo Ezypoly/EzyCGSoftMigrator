@@ -1,6 +1,6 @@
 using Microsoft.Win32;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 public enum SourceKind
 {

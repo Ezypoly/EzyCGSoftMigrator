@@ -1,7 +1,7 @@
 using Microsoft.Win32;
 using System.Text.RegularExpressions;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 internal static class ExtendedDiscovery
 {
@@ -30,7 +30,7 @@ internal static class ExtendedDiscovery
         AddRhino(result, portable, roaming);
         AddSketchUp(result, portable, roaming);
         AddFoundry(result, portable, profile, roaming);
-        AddUnrealAndUnity(result, portable, roaming, local);
+        AddUnreal(result, portable, local);
         AddGodot(result, portable, roaming);
         AddKrita(result, portable, roaming, local);
         AddGimpAndInkscape(result, portable, roaming);
@@ -107,6 +107,8 @@ internal static class ExtendedDiscovery
         AddTarget(targets, "krita", "Krita", "shared", "Core settings", Path.Combine(local, "kritarc"),
             SourceKind.File);
         AddTarget(targets, "gimp", "GIMP", "shared", "User profile", Path.Combine(roaming, "GIMP"));
+        AddTarget(targets, "unity", "Unity", "shared", "Editor preferences",
+            @"HKCU\Software\Unity Technologies\UnityEditor 5.x", SourceKind.Registry);
 
         foreach (var app in new[] { "Photo", "Designer", "Publisher" })
         {
@@ -219,8 +221,8 @@ internal static class ExtendedDiscovery
             ["Temp", "Cache"]);
     }
 
-    private static void AddUnrealAndUnity(List<SettingsLocation> result, Func<string, string> portable,
-        string roaming, string local)
+    private static void AddUnreal(List<SettingsLocation> result, Func<string, string> portable,
+        string local)
     {
         var unrealRoot = Path.Combine(local, "UnrealEngine");
         foreach (var version in SafeDirectories(unrealRoot, "*").Where(x => Regex.IsMatch(x.Name, @"^\d+\.\d+")))
@@ -235,10 +237,6 @@ internal static class ExtendedDiscovery
                     break;
                 }
         }
-
-        AddDirectory(result, portable, "unity", "Unity", "shared", "Editor preferences",
-            Path.Combine(roaming, "Unity", "Editor-5.x", "Preferences"), true,
-            "Editor layouts and file-based preferences.", ["Cache", "Logs"]);
     }
 
     private static void AddGodot(List<SettingsLocation> result, Func<string, string> portable, string roaming)

@@ -2,13 +2,13 @@ using Microsoft.Win32;
 using System.Globalization;
 using System.Text.Json;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 public sealed class RollbackService
 {
     public static string RollbackRoot => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-        "EzyCGMigrator Rollbacks");
+        "EzyCGSoftMigrator Rollbacks");
 
     public IReadOnlyList<RollbackPackage> Discover()
     {

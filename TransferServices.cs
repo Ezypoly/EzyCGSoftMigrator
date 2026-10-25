@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 public static class JsonSupport
 {
@@ -31,7 +31,7 @@ public sealed class BackupService
 
         Directory.CreateDirectory(destinationRoot);
         var packageRoot = UniqueDirectory(destinationRoot,
-            "GraphicsSettingsBackup_" + DateTime.Now.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture));
+            "EzyCGSoftBackup_" + DateTime.Now.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture));
         Directory.CreateDirectory(packageRoot);
         var payloadRoot = Path.Combine(packageRoot, "payload");
         Directory.CreateDirectory(payloadRoot);
@@ -162,9 +162,28 @@ public sealed class BackupService
 
     private static IEnumerable<string> SafeEnumerateFiles(string root)
     {
+        var files = new List<string>();
+        var pending = new Stack<string>();
+        pending.Push(root);
         try
         {
-            return Directory.EnumerateFiles(root, "*", SearchOption.AllDirectories).ToArray();
+            while (pending.Count > 0)
+            {
+                var current = pending.Pop();
+                foreach (var directory in Directory.EnumerateDirectories(
+                             current, "*", SearchOption.TopDirectoryOnly))
+                {
+                    if ((File.GetAttributes(directory) & FileAttributes.ReparsePoint) == 0)
+                        pending.Push(directory);
+                }
+
+                foreach (var file in Directory.EnumerateFiles(current, "*", SearchOption.TopDirectoryOnly))
+                {
+                    if ((File.GetAttributes(file) & FileAttributes.ReparsePoint) == 0)
+                        files.Add(file);
+                }
+            }
+            return files;
         }
         catch (Exception ex)
         {
@@ -246,7 +265,7 @@ public sealed class RestoreService
         if (selections.Count == 0) throw new InvalidOperationException("No settings sets selected for restore.");
         var rollbackRoot = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-            "EzyCGMigrator Rollbacks",
+            "EzyCGSoftMigrator Rollbacks",
             DateTime.Now.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture));
         Directory.CreateDirectory(rollbackRoot);
 

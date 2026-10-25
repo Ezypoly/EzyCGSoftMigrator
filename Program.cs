@@ -1,4 +1,4 @@
-namespace GraphicsSettingsMigrator;
+namespace EzyCGSoftMigrator;
 
 internal static class Program
 {
